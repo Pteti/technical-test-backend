@@ -1,6 +1,11 @@
 spring.profiles.active: develop
 server:
   port: 8090
+  error:
+  include-message: always
+  include-binding-errors: always
+  include-stacktrace: never
+  include-exception: false
 ---
 spring:
   profiles: develop

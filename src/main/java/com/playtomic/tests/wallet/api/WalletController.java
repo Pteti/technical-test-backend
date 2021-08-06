@@ -1,36 +1,70 @@
 package com.playtomic.tests.wallet.api;
 
+import com.playtomic.tests.wallet.data.Wallet;
+import com.playtomic.tests.wallet.exception.BasicWalletException;
+import com.playtomic.tests.wallet.service.info.impl.BasicWalletInfoServiceImpl;
+import com.playtomic.tests.wallet.exception.PaymentServiceException;
+import com.playtomic.tests.wallet.service.payment.impl.ThirdPartyPaymentService;
+import com.playtomic.tests.wallet.exception.ChargeServiceException;
+import com.playtomic.tests.wallet.service.charge.impl.ChargeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
+/**
+ * Rest controller for API calls coming into the service.
+ */
 @RestController
 public class WalletController {
+
+    @Autowired
+    BasicWalletInfoServiceImpl basicWalletInfoService;
+    @Autowired
+    ThirdPartyPaymentService thirdPartyPaymentService;
+    @Autowired
+    ChargeServiceImpl chargeService;
+
     private Logger log = LoggerFactory.getLogger(WalletController.class);
 
-    @RequestMapping("/")
-    void log() {
-        log.info("Logging from /");
+    /**
+     * Gets basic wallet information by id.
+     * @param walletId The identifier of the wallet.
+     * @return The wallet object.
+     * @throws BasicWalletException If the wallet is non existent.
+     */
+    @GetMapping("/wallet/{id}")
+    Wallet getWallet(@PathVariable("id") long walletId) throws BasicWalletException {
+        log.info("Requesting wallet balance for wallet: " + walletId);
+        return basicWalletInfoService.getWalletInformation(walletId);
     }
 
-    @GetMapping("/wallet/{id}")
-    long getBalance(@PathVariable("id") long walletId) {
-        log.info("Requesting wallet balance for wallet: " + walletId);
-        return 10l;
-    };
-
+    /**
+     * Make a charge on the given wallet with the given amount.
+     * @param walletId The identifier of the wallet.
+     * @param amount The amount to be subtracted.
+     * @return 1 if the entry was updated, 0 if it didn't.
+     * @throws ChargeServiceException in case of insufficient balance or non existent wallet.
+     */
     @PostMapping("/wallet/{id}/charge/{amount}")
-    long chargeWallet(@PathVariable("id") long walletId, @PathVariable("amount") long amount) {
-        log.info("charging wallet.");
-        return 10l;
-    };
+    int chargeWallet(@PathVariable("id") long walletId, @PathVariable("amount") double amount) throws ChargeServiceException, BasicWalletException {
+        log.info("Charging wallet with id:" + walletId + ", for " + amount + " EUR.");
+        return chargeService.chargeWallet(walletId, amount);
+    }
 
+    /**
+     * Top up the given wallet with the given amount.
+     * @param walletId The identifier of the wallet.
+     * @param amount The amount to be added to the wallet. Must be greater than 10.
+     * @throws PaymentServiceException in case the amount is not exceeding the minimum value.
+     */
     @PostMapping("/wallet/{id}/topup/{amount}")
-    long topUpWallet(@PathVariable("id") long walletId, @PathVariable("amount") long amount){
-        log.info("top up wallet.");
-        return 10l;
-    };
+    void topUpWallet(@PathVariable("id") long walletId, @PathVariable("amount") long amount) throws PaymentServiceException {
+        log.info("Top up wallet with id: " + walletId + ", using third party service");
+        thirdPartyPaymentService.topUp(new BigDecimal(amount));
+    }
 }
