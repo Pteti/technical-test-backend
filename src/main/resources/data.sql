@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS wallet;
+
+CREATE TABLE wallet(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    balance DOUBLE
+);
+
+INSERT INTO wallet(balance) VALUES
+(1000),
+(10000),
+(0);

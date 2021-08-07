@@ -24,10 +24,9 @@ public class ChargeServiceImpl implements ChargeService {
     @Override
     @Transactional
     public int chargeWallet(long walletId, double amount) throws ChargeServiceException, BasicWalletException {
-        walletRepository.save(new Wallet(1, 2000.0));
         commonValidator.validateWallet(walletId);
+        commonValidator.validateSufficientBalance(walletId,amount);
         double balance = walletRepository.findById(walletId).getBalance();
-        //check balance-amount
         return walletRepository.updateBalanceById(walletId,balance-amount);
     }
 }

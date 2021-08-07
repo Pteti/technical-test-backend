@@ -1,26 +1,26 @@
 spring.profiles.active: develop
+spring.h2.console.enabled: true
 server:
   port: 8090
-  error:
-  include-message: always
-  include-binding-errors: always
-  include-stacktrace: never
-  include-exception: false
 ---
 spring:
   profiles: develop
   jpa:
     show_sql: false
     database: H2
+    generate-ddl: true
+    hibernate.ddl-auto: true
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE
-    initialize: false
+    initialize: true
 ---
 spring:
   profiles: test
   jpa:
     show_sql: false
     database: H2
+    generate-ddl: true
+    hibernate.ddl-auto: true
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE
-    initialize: false
+    initialize: true

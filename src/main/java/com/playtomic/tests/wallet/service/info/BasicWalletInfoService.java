@@ -8,6 +8,7 @@ public interface BasicWalletInfoService {
      * Get a wallet object.
      * @param id The identifier of wanted wallet.
      * @return The Wallet object.
+     * @throws BasicWalletException in case of non existent wallet.
      */
     Wallet getWalletInformation(long id) throws BasicWalletException;
 }

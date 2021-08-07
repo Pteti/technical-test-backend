@@ -13,5 +13,41 @@ public class WalletApplicationIT {
 
 	@Test
 	public void emptyTest() {
+
+	}
+
+	@Test
+	public void getWalletTest(){
+
+	}
+
+	@Test
+	public void getNonExistentWalletTest(){
+
+	}
+
+	@Test
+	public void chargeWalletTest(){
+
+	}
+
+	@Test
+	public void chargeNonExistentWalletTest(){
+
+	}
+
+	@Test
+	public void chargeNotSufficientBalanceTest(){
+
+	}
+
+	@Test
+	public void topUpWalletTest(){
+
+	}
+
+	@Test
+	public void topUpWalletWithoutEnoughEurosTest(){
+
 	}
 }

@@ -51,9 +51,9 @@ public class WalletController {
      * @throws ChargeServiceException in case of insufficient balance or non existent wallet.
      */
     @PostMapping("/wallet/{id}/charge/{amount}")
-    int chargeWallet(@PathVariable("id") long walletId, @PathVariable("amount") double amount) throws ChargeServiceException, BasicWalletException {
+    void chargeWallet(@PathVariable("id") long walletId, @PathVariable("amount") double amount) throws ChargeServiceException, BasicWalletException {
         log.info("Charging wallet with id:" + walletId + ", for " + amount + " EUR.");
-        return chargeService.chargeWallet(walletId, amount);
+        chargeService.chargeWallet(walletId, amount);
     }
 
     /**

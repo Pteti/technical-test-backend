@@ -9,7 +9,8 @@ public interface ChargeService {
      * @param walletId The identifier of the wallet.
      * @param amount The amount to be subtracted.
      * @return Number of changed entries.
-     * @throws ChargeServiceException in case of insufficient balance or non existent wallet.
+     * @throws BasicWalletException in case of non existent wallet.
+     * @throws ChargeServiceException in case of insufficient balance.
      */
     int chargeWallet(long walletId, double amount) throws ChargeServiceException, BasicWalletException;
 }
