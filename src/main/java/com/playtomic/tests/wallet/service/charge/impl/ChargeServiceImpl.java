@@ -1,6 +1,5 @@
 package com.playtomic.tests.wallet.service.charge.impl;
 
-import com.playtomic.tests.wallet.data.Wallet;
 import com.playtomic.tests.wallet.exception.BasicWalletException;
 import com.playtomic.tests.wallet.repository.WalletRepository;
 import com.playtomic.tests.wallet.service.charge.ChargeService;
